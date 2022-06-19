@@ -1,0 +1,13 @@
+syntax = "proto3";
+package glp;
+option go_package = "./generated";
+
+message BuyGlpRequest {
+    bytes amount = 1; 
+}
+
+message BuyGlpResponse {}
+
+service GlpService {
+    rpc BuyGlp(BuyGlpRequest) returns (BuyGlpResponse) {};
+}
