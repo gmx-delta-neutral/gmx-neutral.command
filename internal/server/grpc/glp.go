@@ -21,7 +21,7 @@ type GlpServer struct {
 func (p *GlpServer) BuyGlp(ctx context.Context, request *generated.BuyGlpRequest) (*generated.BuyGlpResponse, error) {
 	response := &generated.BuyGlpResponse{}
 	amount := new(big.Int).SetBytes(request.Amount)
-	err := p.glpService.BuyGlp(*amount)
+	err := p.glpService.BuyGlp(amount)
 
 	if err != nil {
 		return response, err

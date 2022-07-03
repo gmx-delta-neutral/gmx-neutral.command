@@ -3,18 +3,18 @@ package glp
 import "math/big"
 
 type Service interface {
-	BuyGlp(amount big.Int) error
+	BuyGlp(amount *big.Int) error
 }
 
 type GlpService struct {
 	glpRepository Repository
 }
 
-func NewService(glpRepository Repository) *GlpService {
+func NewService(glpRepository Repository) Service {
 	return &GlpService{glpRepository: glpRepository}
 }
 
-func (s *GlpService) BuyGlp(amount big.Int) error {
+func (s *GlpService) BuyGlp(amount *big.Int) error {
 	err := s.glpRepository.BuyGlp(amount)
 	return err
 }
