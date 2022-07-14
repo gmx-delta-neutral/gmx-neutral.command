@@ -5,8 +5,8 @@ import (
 	"log"
 	"math/big"
 
-	"github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/api/generated"
-	"github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/infrastructure"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/internal/infrastructure"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/pkg/command/api"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 )
@@ -29,10 +29,10 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := generated.NewGlpServiceClient(conn)
+	c := api.NewGlpServiceClient(conn)
 
 	// create request
-	req := generated.BuyGlpRequest{
+	req := api.BuyGlpRequest{
 		Amount: big.NewInt(1).Bytes(),
 	}
 

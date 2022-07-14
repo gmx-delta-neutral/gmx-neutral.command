@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	grpc_server "github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/server/grpc"
+	grpc_server "github.com/gmx-delta-neutral/gmx-neutral.command/internal/server/grpc"
 	"github.com/joho/godotenv"
 )
 

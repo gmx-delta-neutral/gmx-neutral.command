@@ -5,10 +5,6 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/contracts/glp"
-	glpmanager "github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/contracts/glp_manager"
-	rewardrouter "github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/contracts/reward_router"
-	util "github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/util"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -17,6 +13,10 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/internal/contracts/glp"
+	glpmanager "github.com/gmx-delta-neutral/gmx-neutral.command/internal/contracts/glp_manager"
+	rewardrouter "github.com/gmx-delta-neutral/gmx-neutral.command/internal/contracts/reward_router"
+	util "github.com/gmx-delta-neutral/gmx-neutral.command/internal/util"
 	"github.com/google/uuid"
 )
 

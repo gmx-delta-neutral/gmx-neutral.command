@@ -6,9 +6,9 @@ import (
 	"log"
 	"net"
 
-	"github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/api/generated"
-	"github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/glp"
-	"github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/infrastructure"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/internal/glp"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/internal/infrastructure"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/pkg/command/api"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
@@ -75,7 +75,7 @@ func StartServer() {
 
 	s := grpc.NewServer(grpc.ChainUnaryInterceptor(otelgrpc.UnaryServerInterceptor(), interceptors.LoggingServerInterceptor()))
 	glp_server := NewGlpServer(glp.NewService(glp.NewGlpRepository()))
-	generated.RegisterGlpServiceServer(s, glp_server)
+	api.RegisterGlpServiceServer(s, glp_server)
 
 	log.Println("Listening on port 50052")
 
