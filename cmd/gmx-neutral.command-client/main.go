@@ -33,7 +33,7 @@ func main() {
 
 	// create request
 	req := generated.BuyGlpRequest{
-		Amount: big.NewInt(100).Bytes(),
+		Amount: big.NewInt(1).Bytes(),
 	}
 
 	// call Greet service

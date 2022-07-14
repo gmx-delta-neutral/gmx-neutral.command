@@ -19,3 +19,6 @@
 
 # Go workspace file
 g
+
+#.env files
+*.env

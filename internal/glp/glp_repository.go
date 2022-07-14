@@ -3,9 +3,11 @@ package glp
 import (
 	"context"
 	"math/big"
+	"os"
 
 	"github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/contracts/glp"
 	glpmanager "github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/contracts/glp_manager"
+	rewardrouter "github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/contracts/reward_router"
 	util "github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command/internal/util"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -13,6 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/google/uuid"
 )
@@ -49,6 +52,7 @@ var walletAddress = common.HexToAddress("0xa7d7079b0fead91f3e65f86e8915cb59c1a4c
 var tokenAddress = common.HexToAddress("0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664")
 var glpManagerAddress = common.HexToAddress("0xe1ae4d4b06A5Fe1fc288f6B4CD72f9F8323B107F")
 var glpAddress = common.HexToAddress("0x01234181085565ed162a948b6a5e88758CD7c7b8")
+var rewardRouterAddress = common.HexToAddress("0x82147c5a7e850ea4e28155df107f2590fd4ba327")
 
 var glpDecimals = 18
 var usdcDecimals = 18
@@ -87,12 +91,39 @@ func (r *GlpRepository) BuyGlp(dollarAmount *big.Int) error {
 	}
 
 	expandedGlpPrice := new(big.Int).Div(util.ExpandDecimals(aum, int64(glpDecimals)), supply)
-	amountPurchased := new(big.Int).Div(util.ExpandDecimals(expandedDollarAmount, int64(usdcDecimals)), expandedGlpPrice)
+
+	rewardCtr, err := rewardrouter.NewRewardrouter(rewardRouterAddress, client)
+
+	if err != nil {
+		return err
+	}
+
+	amountToPurchase := new(big.Int).Div(util.ExpandDecimals(expandedDollarAmount, int64(usdcDecimals)), expandedGlpPrice)
+	minUsdg := new(big.Int)
+
+	privateKey, err := crypto.HexToECDSA(os.Getenv("PRIVATE_KEY"))
+
+	if err != nil {
+		return err
+	}
+
+	chainId := big.NewInt(43114)
+	opts, err := bind.NewKeyedTransactorWithChainID(privateKey, chainId)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = rewardCtr.MintAndStakeGlpETH(opts, minUsdg, amountToPurchase)
+
+	if err != nil {
+		return err
+	}
 
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithRegion("us-east-1"),
-		config.WithEndpointResolver(aws.EndpointResolverFunc(
-			func(service, region string) (aws.Endpoint, error) {
+		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
+			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 				return aws.Endpoint{URL: "http://localhost:8000"}, nil
 			})),
 	)
@@ -112,7 +143,7 @@ func (r *GlpRepository) BuyGlp(dollarAmount *big.Int) error {
 			"TokenAddress":  &types.AttributeValueMemberS{Value: tokenAddress.String()},
 			"WalletAddress": &types.AttributeValueMemberS{Value: walletAddress.String()},
 			"Symbol":        &types.AttributeValueMemberS{Value: "GLP"},
-			"Amount":        &types.AttributeValueMemberS{Value: amountPurchased.String()},
+			"Amount":        &types.AttributeValueMemberS{Value: amountToPurchase.String()},
 			"Decimals":      &types.AttributeValueMemberN{Value: "18"},
 			"PurchasePrice": &types.AttributeValueMemberS{Value: expandedGlpPrice.String()},
 		},
