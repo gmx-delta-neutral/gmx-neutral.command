@@ -4,7 +4,7 @@
 // - protoc             v3.19.4
 // source: glp.proto
 
-package generated
+package api
 
 import (
 	context "context"
@@ -35,7 +35,7 @@ func NewGlpServiceClient(cc grpc.ClientConnInterface) GlpServiceClient {
 
 func (c *glpServiceClient) BuyGlp(ctx context.Context, in *BuyGlpRequest, opts ...grpc.CallOption) (*BuyGlpResponse, error) {
 	out := new(BuyGlpResponse)
-	err := c.cc.Invoke(ctx, "/glp.GlpService/BuyGlp", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/gmx.neutral.command.api.GlpService/BuyGlp", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func _GlpService_BuyGlp_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/glp.GlpService/BuyGlp",
+		FullMethod: "/gmx.neutral.command.api.GlpService/BuyGlp",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GlpServiceServer).BuyGlp(ctx, req.(*BuyGlpRequest))
@@ -90,7 +90,7 @@ func _GlpService_BuyGlp_Handler(srv interface{}, ctx context.Context, dec func(i
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var GlpService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "glp.GlpService",
+	ServiceName: "gmx.neutral.command.api.GlpService",
 	HandlerType: (*GlpServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

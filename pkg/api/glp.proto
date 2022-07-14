@@ -1,6 +1,6 @@
 syntax = "proto3";
-package glp;
-option go_package = "./generated";
+package gmx.neutral.command.api;
+option go_package = "./api";
 
 message BuyGlpRequest {
     bytes amount = 1; 
