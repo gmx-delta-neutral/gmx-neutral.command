@@ -1,5 +1,5 @@
 syntax = "proto3";
-package gmx.neutral.command.api;
+package command;
 option go_package = "./api";
 
 message BuyGlpRequest {
