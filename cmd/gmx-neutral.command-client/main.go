@@ -6,7 +6,7 @@ import (
 	"math/big"
 
 	"github.com/gmx-delta-neutral/gmx-neutral.command/internal/infrastructure"
-	"github.com/gmx-delta-neutral/gmx-neutral.command/pkg/command/api"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/pkg/api"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 )

@@ -5,7 +5,7 @@ import (
 	"math/big"
 
 	"github.com/gmx-delta-neutral/gmx-neutral.command/internal/glp"
-	"github.com/gmx-delta-neutral/gmx-neutral.command/pkg/command/api"
+	"github.com/gmx-delta-neutral/gmx-neutral.command/pkg/api"
 )
 
 func NewGlpServer(glpService glp.Service) *GlpServer {

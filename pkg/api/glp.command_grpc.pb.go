@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.19.4
-// source: glp.proto
+// source: glp.command.proto
 
 package api
 
@@ -99,5 +99,5 @@ var GlpService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "glp.proto",
+	Metadata: "glp.command.proto",
 }
