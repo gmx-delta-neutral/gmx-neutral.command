@@ -1,4 +1,4 @@
-module github.com/RafGDev/gmx-delta-neutral/gmx-neutral.command
+module github.com/gmx-delta-neutral/gmx-neutral.command
 
 go 1.18
 
